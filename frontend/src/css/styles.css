@@ -1,0 +1,527 @@
+/* General Styles */
+body {
+  margin: 0;
+  font-family: 'Inter', Arial, sans-serif;
+  background-color: #f0f2f5; /* Light gray background common in social media apps */
+  color: #1c1e21; /* Darker text color for better readability */
+}
+
+/* Navbar */
+.navbar {
+  background-color: #ffffff;
+  padding: 10px 20px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  color: #1c1e21;
+  box-shadow: 0px 1px 3px rgba(0, 0, 0, 0.1);
+  position: sticky; /* Keep navbar at the top */
+  top: 0;
+  z-index: 1000;
+}
+.navbar a {
+  color: #1c1e21;
+  margin-right: 15px;
+  text-decoration: none;
+  font-weight: 500;
+}
+.navbar a:hover {
+  color: #1877f2; /* Social media blue */
+}
+.navbar button {
+  background-color: #1877f2; /* Social media blue */
+  border: none;
+  color: white;
+  padding: 8px 12px;
+  border-radius: 5px;
+  cursor: pointer;
+  font-weight: 500;
+}
+.navbar button:hover {
+  background-color: #165ec9;
+}
+
+/* Home Feed */
+.home-feed {
+  padding: 20px;
+  max-width: 1200px;
+  margin: 0 auto;
+}
+.maps-grid {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 20px;
+  justify-content: flex-start;
+}
+.bubble-map-card {
+  background-color: white;
+  border: 1px solid #dddfe2;
+  padding: 15px;
+  border-radius: 8px;
+  box-shadow: 0px 1px 3px rgba(0, 0, 0, 0.1);
+  width: 300px;
+  cursor: pointer;
+  transition: transform 0.2s, box-shadow 0.2s;
+  position: relative;
+}
+.bubble-map-card:hover {
+  transform: translateY(-5px);
+  box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.15);
+}
+.bubble-map-card h3 {
+  font-size: 20px;
+  margin-bottom: 8px;
+  color: #1c1e21;
+}
+.bubble-map-card p {
+  font-size: 14px;
+  color: #606770;
+}
+
+/* Profile Page */
+.profile-page {
+  padding: 20px;
+  max-width: 800px;
+  margin: 0 auto;
+}
+.profile-page h1 {
+  font-size: 32px;
+  margin-bottom: 20px;
+  color: #1c1e21;
+}
+.profile-page h2 {
+  font-size: 24px;
+  margin-bottom: 15px;
+  color: #1c1e21;
+}
+.profile-page button {
+  background-color: #1877f2;
+  color: white;
+  padding: 10px 15px;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+  font-weight: bold;
+  transition: background-color 0.2s;
+  margin-bottom: 20px;
+}
+.profile-page button:hover {
+  background-color: #165ec9;
+}
+.profile-page .maps-grid {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 20px;
+}
+
+/* Map Viewer & Editor */
+.map-viewer,
+.map-editor {
+  padding: 20px;
+  max-width: 1200px;
+  margin: 0 auto;
+}
+.map-editor-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 15px;
+}
+.map-title-input  {
+  padding: 10px;
+  border: 1px solid #ccd0d5 !important;
+  border-radius: 5px;
+  width: 70%;
+  font-size: 18px;
+}
+
+/* Styling for Map Description Input */
+.map-description-input {
+  padding: 10px !important; /* Match padding of map-title-input */
+  border: 1px solid #ccd0d5 !important; /* Match border of map-title-input */
+  border-radius: 5px !important; /* Same border-radius */
+  width: 70% !important; /* Match width of map-title-input */
+  font-size: 18px !important; /* Same font size */
+  font-family: 'Inter', Arial, sans-serif; /* Ensure consistent font-family */
+  color: #1c1e21; /* Match text color of map-title-input */
+  background-color: #ffffff; /* White background for consistency */
+  box-shadow: none !important; /* Remove box-shadow to match map-title-input */
+  resize: vertical; /* Allow vertical resizing */
+  transition: border-color 0.3s, box-shadow 0.3s; /* Smooth transitions */
+  margin-bottom: 20px; /* Space below the description */
+  min-height: 100px; /* Maintain minimum height for textarea */
+}
+
+.map-description-input:focus {
+  border-color: #1877f2 !important; /* Match focus border color of map-title-input */
+  box-shadow: 0 0 0 3px rgba(24, 119, 242, 0.2) !important; /* Subtle focus shadow */
+}
+
+/* Styling for Bubble Map Description Text */
+.bubble-node text {
+  fill: white; /* Text color */
+  font-family: 'Inter', Arial, sans-serif; /* Font family */
+  font-size: 14px; /* Font size */
+  font-weight: bold; /* Font weight */
+  pointer-events: none; /* Ensure text doesn't intercept mouse events */
+  text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.5); /* Adds shadow for better readability */
+}
+
+.add-bubble-btn {
+  padding: 10px 15px;
+  background-color: #42b72a; /* Green action button */
+  color: white;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+  font-weight: bold;
+  transition: background-color 0.2s;
+}
+.add-bubble-btn:hover {
+  background-color: #36a420;
+}
+.editor-buttons {
+  display: flex;
+  justify-content: flex-end;
+  gap: 10px;
+  margin-bottom: 15px;
+}
+.editor-buttons .back-btn,
+.editor-buttons .save-btn {
+  padding: 10px 15px;
+  background-color: #42b72a;
+  color: white;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+  font-weight: bold;
+  transition: background-color 0.2s;
+}
+.editor-buttons .back-btn:hover,
+.editor-buttons .save-btn:hover {
+  background-color: #36a420;
+}
+
+/* Bubble Map */
+.bubble-map-container {
+  width: 100%;
+  height: 70vh;
+  background-color: white;
+  border-radius: 8px;
+  box-shadow: 0px 1px 3px rgba(0, 0, 0, 0.1);
+  overflow: hidden;
+  position: relative;
+}
+
+/* Remove Bubble "X" Button */
+.delete-map-btn {
+  position: absolute !important;
+  top: 5px !important; /* Adjusted to be inside the bubble */
+  right: 5px !important;
+  width: 24px !important;
+  height: 24px !important;
+  background-color: #ff4d4d !important; /* Light red */
+  color: white !important;
+  border: none !important;
+  border-radius: 50% !important;
+  font-size: 16px !important;
+  font-weight: bold !important;
+  cursor: pointer !important;
+  align-items: center !important;
+  justify-content: center !important;
+  transition: background-color 0.2s, transform 0.2s !important;
+  display: none !important; /* Hidden by default */
+  z-index: 1000 !important; /* Ensure it's on top */
+}
+
+/* Show the button when hovering over the bubble node */
+.bubble-node:hover .delete-map-btn {
+  display: flex !important;
+}
+
+.delete-map-btn:hover {
+  background-color: #ff0000 !important; /* Darker red on hover */
+}
+.map-card-wrapper:hover .delete-map-btn {
+  display: flex !important; /* Show on hover */
+}
+
+/* Bubble Node */
+.bubble-node {
+  position: relative !important;
+}
+
+/* Auth Forms */
+.auth-form {
+  width: 400px;
+  margin: 50px auto;
+  background-color: white;
+  border-radius: 8px;
+  padding: 20px;
+  box-shadow: 0px 1px 3px rgba(0, 0, 0, 0.1);
+}
+.auth-form h2 {
+  font-size: 24px;
+  margin-bottom: 20px;
+  color: #1c1e21;
+}
+.auth-form input,
+.auth-form button {
+  width: 100%;
+  padding: 12px;
+  margin-bottom: 12px;
+  border: 1px solid #ccd0d5 !important;
+  border-radius: 5px;
+  font-size: 16px;
+}
+.auth-form input:focus {
+  border-color: #1877f2 !important;
+  outline: none;
+}
+.auth-form button {
+  background-color: #1877f2 !important;
+  color: white !important;
+  border: none !important;
+  cursor: pointer !important;
+  font-weight: bold !important;
+}
+.auth-form button:hover {
+  background-color: #165ec9 !important;
+}
+
+/* Suggestions */
+.suggestions {
+  list-style: none;
+  padding: 0;
+  margin-top: 10px;
+}
+.suggestions li {
+  background: #f5f6f7;
+  border: 1px solid #dddfe2;
+  padding: 8px;
+  border-radius: 4px;
+  cursor: pointer;
+  margin-bottom: 5px;
+}
+.suggestions li:hover {
+  background: #e4e6eb;
+}
+
+/* Scrollbar Styling */
+body::-webkit-scrollbar {
+  width: 12px;
+}
+body::-webkit-scrollbar-track {
+  background: #f0f2f5;
+}
+body::-webkit-scrollbar-thumb {
+  background-color: #c0c0c0;
+  border-radius: 6px;
+  border: 3px solid #f0f2f5;
+}
+
+/* Responsive Design */
+@media (max-width: 768px) {
+  .navbar {
+    flex-direction: column;
+  }
+  .map-editor-header {
+    flex-direction: column;
+    align-items: flex-start;
+  }
+  .map-title-input,
+  .map-description-input {
+    width: 100% !important;
+    margin-bottom: 10px;
+  }
+  .maps-grid {
+    justify-content: center;
+  }
+  .bubble-map-card {
+    width: 100%;
+  }
+}
+
+/* Error Messages */
+.error {
+  color: red;
+  text-align: center;
+  margin-top: 20px;
+}
+
+/* Topic Details Page */
+.topic-details {
+  padding: 20px;
+  max-width: 800px;
+  margin: 0 auto;
+  background-color: white;
+  border-radius: 8px;
+  box-shadow: 0px 1px 3px rgba(0, 0, 0, 0.1);
+}
+.topic-details h1 {
+  font-size: 28px;
+  margin-bottom: 10px;
+  color: #1c1e21;
+}
+.topic-details p {
+  font-size: 16px;
+  margin-bottom: 20px;
+  color: #606770;
+}
+.topic-details h3 {
+  font-size: 20px;
+  margin-bottom: 10px;
+  color: #1c1e21;
+}
+.topic-details ul {
+  list-style-type: disc;
+  padding-left: 20px;
+}
+.topic-details ul li {
+  margin-bottom: 8px;
+}
+.topic-details ul li a {
+  color: #1877f2;
+  text-decoration: none;
+  transition: color 0.2s;
+}
+.topic-details ul li a:hover {
+  color: #165ec9;
+}
+.topic-details button {
+  background-color: #1877f2;
+  color: white;
+  padding: 10px 15px;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+  font-weight: bold;
+  transition: background-color 0.2s;
+  margin-top: 20px;
+}
+.topic-details button:hover {
+  background-color: #165ec9;
+}
+
+/* Add Topic Page */
+.add-topic {
+  padding: 20px;
+  max-width: 800px;
+  margin: 0 auto;
+  background-color: white;
+  border-radius: 8px;
+  box-shadow: 0px 1px 3px rgba(0, 0, 0, 0.1);
+}
+.add-topic h1 {
+  font-size: 28px;
+  margin-bottom: 20px;
+  color: #1c1e21;
+}
+.add-topic button {
+  background-color: #1877f2;
+  color: white;
+  padding: 8px 12px;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+  font-weight: bold;
+  transition: background-color 0.2s;
+  margin-bottom: 20px;
+}
+.add-topic button:hover {
+  background-color: #165ec9;
+}
+.add-topic form {
+  display: flex;
+  flex-direction: column;
+}
+.add-topic form div {
+  margin-bottom: 15px;
+}
+.add-topic form label {
+  margin-bottom: 5px;
+  font-weight: 500;
+  color: #1c1e21;
+}
+.add-topic form input,
+.add-topic form textarea {
+  padding: 10px;
+  border: 1px solid #ccd0d5;
+  border-radius: 5px;
+  font-size: 16px;
+  width: 100%;
+}
+.add-topic form input:focus,
+.add-topic form textarea:focus {
+  border-color: #1877f2;
+  outline: none;
+}
+.add-topic form button {
+  background-color: #42b72a; /* Green action button */
+  color: white;
+  padding: 10px 15px;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+  font-weight: bold;
+  transition: background-color 0.2s;
+}
+.add-topic form button:hover {
+  background-color: #36a420;
+}
+
+/* Remove Map Button in Profile */
+
+/* Bubble Node */
+.bubble-node {
+  position: relative !important;
+}
+
+/* Additional Enhancements for Social Media Style */
+
+/* Buttons */
+button {
+  font-family: 'Inter', Arial, sans-serif;
+}
+button:focus {
+  outline: none;
+}
+
+/* Inputs */
+input,
+textarea {
+  font-family: 'Inter', Arial, sans-serif;
+}
+
+/* Links */
+a {
+  font-family: 'Inter', Arial, sans-serif;
+}
+
+/* Styling for Bubble Map Text */
+.bubble-node text {
+  fill: white; /* Text color */
+  font-family: 'Inter', Arial, sans-serif; /* Font family */
+  font-size: 14px; /* Font size */
+  font-weight: bold; /* Font weight */
+  pointer-events: none; /* Ensure text doesn't intercept mouse events */
+  text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.5); /* Adds shadow for better readability */
+}
+
+/* Map Editor and Viewer Buttons */
+.map-editor button,
+.map-viewer button,
+.add-topic button,
+.auth-form button,
+.profile-page button {
+  box-shadow: 0px 1px 3px rgba(0, 0, 0, 0.1);
+}
+
+/* Smooth Transitions */
+button,
+input,
+textarea,
+.bubble-map-card,
+.delete-map-btn {
+  transition: all 0.2s ease-in-out;
+}
