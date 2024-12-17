@@ -42,7 +42,7 @@ app.use(
       mongoUrl: process.env.MONGODB_URI,
     }),
     cookie: {
-      secure: process.env.NODE_ENV === 'production', // Secure in production only
+      secure: true,
       httpOnly: true,
       sameSite: 'lax',
     },
