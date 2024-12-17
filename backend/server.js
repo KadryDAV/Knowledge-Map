@@ -6,15 +6,26 @@ const mapRoutes = require('./routes/maps');
 const userRoutes = require('./routes/users');
 const session = require('express-session');
 const MongoStore = require('connect-mongo');
-require('dotenv').config(); // Load environment variables
+require('dotenv').config();
 
 const app = express();
 
-// CORS Middleware
+// CORS Middleware - Allow both local and production origins
+const allowedOrigins = [
+  'https://knowledge-map-front.onrender.com', // Production frontend
+  'http://localhost:3000', // Local frontend
+];
+
 app.use(
   cors({
-    origin: 'https://knowledge-map-front.onrender.com', // Your live frontend URL
-    credentials: true, // Allow credentials (cookies, sessions)
+    origin: (origin, callback) => {
+      if (!origin || allowedOrigins.includes(origin)) {
+        callback(null, true);
+      } else {
+        callback(new Error('Not allowed by CORS'));
+      }
+    },
+    credentials: true,
   })
 );
 
@@ -31,8 +42,8 @@ app.use(
       mongoUrl: process.env.MONGODB_URI,
     }),
     cookie: {
-      secure: true, // Set to true for HTTPS (Render uses HTTPS by default)
-      sameSite: 'lax', // Prevent cross-site request issues
+      secure: process.env.NODE_ENV === 'production', // Only secure cookies in production
+      sameSite: 'lax',
     },
   })
 );
@@ -44,13 +55,9 @@ app.use('/api/users', userRoutes);
 
 // MongoDB Connection
 mongoose
-  .connect(process.env.MONGODB_URI, {
-    useNewUrlParser: true,
-    useUnifiedTopology: true,
-  })
+  .connect(process.env.MONGODB_URI)
   .then(() => {
     console.log('MongoDB Connected');
-    // Start the server only after successful DB connection
     app.listen(3001, () => {
       console.log('Server is running on port 3001');
     });
