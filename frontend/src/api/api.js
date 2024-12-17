@@ -1,8 +1,8 @@
 import axios from 'axios';
 
 const api = axios.create({
-    baseURL: 'https://knowledge-map.onrender.com/api',
-    withCredentials: true, 
+  baseURL: process.env.REACT_APP_API_URL, // Your backend URL
+  withCredentials: true,                 // Send cookies with requests
 });
 
 export default api;
