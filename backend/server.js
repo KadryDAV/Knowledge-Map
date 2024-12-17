@@ -10,22 +10,10 @@ require('dotenv').config();
 
 const app = express();
 
-// CORS Middleware - Allow both local and production origins
-const allowedOrigins = [
-  'https://knowledge-map-front.onrender.com', // Production frontend
-  'http://localhost:3000', // Local frontend
-];
-
 app.use(
   cors({
-    origin: (origin, callback) => {
-      if (!origin || allowedOrigins.includes(origin)) {
-        callback(null, true);
-      } else {
-        callback(new Error('Not allowed by CORS'));
-      }
-    },
-    credentials: true,
+    origin: 'https://knowledge-map-front.onrender.com', // Frontend URL
+    credentials: true, // Allow cookies to be sent with requests
   })
 );
 
@@ -43,7 +31,7 @@ app.use(
     }),
     cookie: {
       secure: true,
-      httpOnly: false,
+      httpOnly: true,
       sameSite: 'none',
     },
   })
