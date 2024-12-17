@@ -29,13 +29,10 @@ app.use(
     saveUninitialized: false,
     store: MongoStore.create({
       mongoUrl: process.env.MONGODB_URI,
-      // Optionally specify other options
     }),
     cookie: {
-      secure: false, 
-      httpOnly: true, 
-      maxAge: 1000 * 60 * 60 * 24, // 1 day
-      sameSite: 'lax', 
+      secure: true, // Set to true for HTTPS (Render uses HTTPS by default)
+      sameSite: 'lax', // Prevent cross-site request issues
     },
   })
 );
