@@ -10,10 +10,11 @@ require('dotenv').config();
 
 const app = express();
 
+// CORS Middleware
 app.use(
   cors({
     origin: 'https://knowledge-map-front.onrender.com', // Frontend URL
-    credentials: true, // Allow cookies to be sent with requests
+    credentials: true, // Allow cookies
   })
 );
 
@@ -30,12 +31,17 @@ app.use(
       mongoUrl: process.env.MONGODB_URI,
     }),
     cookie: {
-      secure: true,
-      httpOnly: true,
-      sameSite: 'none',
+      secure: process.env.NODE_ENV === 'production', // Secure only in production
+      httpOnly: true, // Prevent client-side JavaScript access
+      sameSite: process.env.NODE_ENV === 'production' ? 'none' : 'lax',
     },
   })
 );
+
+// Root Route for Testing
+app.get('/', (req, res) => {
+  res.send('Backend is live!');
+});
 
 // Routes
 app.use('/api/auth', authRoutes);
