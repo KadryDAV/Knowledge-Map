@@ -13,7 +13,7 @@ const app = express();
 // CORS Middleware
 app.use(
   cors({
-    origin: 'http://localhost:3000', 
+    origin: 'https://knowledge-map-front.onrender.com', // Your live frontend URL
     credentials: true, // Allow credentials (cookies, sessions)
   })
 );
