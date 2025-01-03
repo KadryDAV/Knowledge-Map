@@ -8,9 +8,31 @@ router.post('/signup', async (req, res) => {
   try {
     const { username, email, password } = req.body;
 
-    // Validate input
+    // Check for missing fields
     if (!username || !email || !password) {
       return res.status(400).json({ message: 'All fields are required.' });
+    }
+
+    // Validate username (at least 3 chars)
+    if (username.length < 3) {
+      return res.status(400).json({
+        message: 'Username must be at least 3 characters long.'
+      });
+    }
+
+    // Validate password length (at least 6 chars)
+    if (password.length < 6) {
+      return res.status(400).json({
+        message: 'Password must be at least 6 characters long.'
+      });
+    }
+
+    // Validate at least one uppercase character
+    const uppercaseRegex = /[A-Z]/;
+    if (!uppercaseRegex.test(password)) {
+      return res.status(400).json({
+        message: 'Password must contain at least one uppercase character.'
+      });
     }
 
     // Check if user already exists
@@ -29,14 +51,14 @@ router.post('/signup', async (req, res) => {
     // Set session
     req.session.userId = user._id;
 
-    res.status(201).json({ user });
+    return res.status(201).json({ user });
   } catch (error) {
     console.error('Signup error:', error);
-    res.status(500).json({ message: 'Server error during signup.' });
+    return res.status(500).json({ message: 'Server error during signup.' });
   }
 });
 
-// Log in
+// Log in route
 router.post('/login', async (req, res) => {
   try {
     const { email, password } = req.body;
@@ -49,14 +71,51 @@ router.post('/login', async (req, res) => {
     // Find user
     const user = await User.findOne({ email });
     if (!user) {
-      return res.status(401).json({ message: 'Invalid credentials.' });
+      return res.status(401).json({ message: 'Invalid email or password.' });
     }
 
-    // Compare password
+    // Check if user is locked out
+    if (user.isLockedOut) {
+      const lockDuration = 15 * 60 * 1000; // 15 minutes in milliseconds
+      const timeElapsed = Date.now() - new Date(user.lockoutStartTime).getTime();
+
+      if (timeElapsed < lockDuration) {
+        const minutesLeft = Math.ceil((lockDuration - timeElapsed) / 60000);
+        return res.status(403).json({
+          message: `Account is locked. Try again in ${minutesLeft} minutes.`,
+        });
+      }
+
+      // Reset lockout status after the lockout period expires
+      user.isLockedOut = false;
+      user.loginAttempts = 0;
+      user.lockoutStartTime = null;
+      await user.save();
+    }
+
+    // Validate password
     const isMatch = await bcrypt.compare(password, user.password);
     if (!isMatch) {
-      return res.status(401).json({ message: 'Invalid credentials.' });
+      user.loginAttempts += 1;
+
+      if (user.loginAttempts >= 5) {
+        user.isLockedOut = true;
+        user.lockoutStartTime = Date.now();
+        await user.save();
+        return res.status(403).json({
+          message: 'Account locked due to too many failed login attempts.',
+        });
+      }
+
+      await user.save(); // Save after incrementing login attempts
+      return res.status(401).json({ message: 'Invalid email or password.' });
     }
+
+    // Successful login Resets attempts and lockout status
+    user.loginAttempts = 0;
+    user.isLockedOut = false;
+    user.lockoutStartTime = null;
+    await user.save();
 
     // Set session
     req.session.userId = user._id;
@@ -67,6 +126,8 @@ router.post('/login', async (req, res) => {
     res.status(500).json({ message: 'Server error during login.' });
   }
 });
+
+
 
 // Log out
 router.post('/logout', (req, res) => {

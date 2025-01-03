@@ -37,7 +37,7 @@ function MapEditor() {
           setLoading(false);
         }
       } else {
-        // Creating a new map scenario
+        // Creating a new map
         setMapName('Untitled Map');
         setMapDescription('A brand new map.');
         setBubbles([]);
@@ -54,7 +54,7 @@ function MapEditor() {
     setLoading(true);
     setError(null);
 
-    // Ensure name and description are not empty
+    // Make sure name and description are not empty
     if (!mapName || !mapDescription) {
       setLoading(false);
       setError('Name and description are required.');
@@ -79,7 +79,7 @@ function MapEditor() {
         // Create new map
         const response = await api.post('/maps', mapData);
         alert('Map created successfully.');
-        // Navigate to the newly created map's editor
+        // Navigate to the new map's editor
         navigate(`/map-editor/${response.data._id}`, { replace: true });
       }
     } catch (err) {
@@ -94,54 +94,93 @@ function MapEditor() {
   if (error) return <div className="error">{error}</div>;
 
   return (
-    <div className="map-editor">
+    <div
+      className="map-editor"
+      style={{
+        margin: '0 auto',
+        padding: '20px',
+        maxWidth: '1200px',
+        backgroundColor: '#fff',
+        borderRadius: '8px',
+      }}
+    >
       <div className="editor-buttons">
-        <button className="back-btn" onClick={() => navigate(-1)}>Back</button>
+        <button className="back-btn" onClick={() => navigate(-1)}>
+          Back
+        </button>
         <button className="save-btn" onClick={handleSave} disabled={loading}>
           {realMapId ? 'Update Map' : 'Create Map'}
         </button>
       </div>
-      <h1>{realMapId ? 'Edit Map' : 'Create New Map'}</h1>
-      <div className="map-details">
-        <input
-          type="text"
-          value={mapName}
-          onChange={(e) => setMapName(e.target.value)}
-          placeholder="Map Name"
-          className="map-title-input"
-          required
-        />
-        <textarea
-          value={mapDescription}
-          onChange={(e) => setMapDescription(e.target.value)}
-          placeholder="Map Description"
-          className="map-description-input"
-          required
-        />
-        <div className="public-checkbox">
-          <label>
+  
+      <h1 style={{ marginBottom: '10px' }}>
+        {realMapId ? 'Edit Map' : 'Create New Map'}
+      </h1>
+      <p style={{ marginBottom: '20px', fontSize: '14px', color: '#555' }}>
+        Use the map editor to add, remove, or connect bubbles. 
+        You can also modify the name and description of your knowledge map below.
+      </p>
+  
+      {/* Flex container to split form (left) & bubble map (right) */}
+      <div style={{ display: 'flex', gap: '20px', alignItems: 'flex-start' }}>
+        {/* Left column: title & description */}
+        <div style={{ flex: '1', minWidth: '250px' }}>
+          <div className="map-details" style={{ marginBottom: '20px' }}>
             <input
-              type="checkbox"
-              checked={isPublic}
-              onChange={(e) => setIsPublic(e.target.checked)}
+              type="text"
+              value={mapName}
+              onChange={(e) => setMapName(e.target.value)}
+              placeholder="Map Name"
+              className="map-title-input"
+              required
+              style={{ 
+                width: '90%',       // a bit narrower
+                marginBottom: '10px',
+                marginLeft: '5%',   // small horizontal space from the edge
+              }}
             />
-            Make this map public (visible to everyone)
-          </label>
+            <textarea
+              value={mapDescription}
+              onChange={(e) => setMapDescription(e.target.value)}
+              placeholder="Map Description"
+              className="map-description-input"
+              required
+              style={{ 
+                width: '90%',
+                marginBottom: '10px',
+                marginLeft: '5%',
+                minHeight: '80px',  // just to ensure a bit more room
+              }}
+            />
+            <div className="public-checkbox" style={{ marginTop: '10px', marginLeft: '5%' }}>
+              <label>
+                <input
+                  type="checkbox"
+                  checked={isPublic}
+                  onChange={(e) => setIsPublic(e.target.checked)}
+                />
+                {' '}Make this map public (visible to everyone)
+              </label>
+            </div>
+          </div>
+        </div>
+  
+        {/* Right column: BubbleMap */}
+        <div style={{ flex: '2', maxWidth: '600px' }}>
+          <BubbleMap
+            isEditing={true}
+            mapData={{
+              name: mapName,
+              description: mapDescription,
+              bubbles,
+              connections,
+              public: isPublic,
+            }}
+          />
         </div>
       </div>
-      {/* BubbleMap component with isEditing=true */}
-      <BubbleMap
-        isEditing={true}
-        mapData={{
-          name: mapName,
-          description: mapDescription,
-          bubbles,
-          connections,
-          public: isPublic
-        }}
-      />
     </div>
-  );
+  );  
 }
 
 export default MapEditor;

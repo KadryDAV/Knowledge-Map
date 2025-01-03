@@ -11,7 +11,24 @@ import Signup from './pages/Signup';
 import Navbar from './components/Navbar';
 import ProtectedRoute from './components/ProtectedRoute';
 import BubbleMap from './components/BubbleMap';
+import NotFound from './pages/NotFound'; // Create this component for 404 handling
 
+function ProtectedRoutes() {
+  return (
+    <ProtectedRoute>
+      <Routes>
+        <Route path="/profile" element={<Profile />} />
+        <Route path="/map/:mapId" element={<MapViewer />} />
+        <Route path="/map-editor/:mapId?" element={<MapEditor />} />
+        <Route path="/bubble-map" element={<BubbleMap />} />
+        <Route path="/add-topic/:mapId/:bubbleId" element={<AddTopic />} />
+        <Route path="/topic-details/:mapId/:bubbleId" element={<TopicDetails />} />
+        {/* Protected 404 route for unmatched paths */}
+        <Route path="*" element={<NotFound />} />
+      </Routes>
+    </ProtectedRoute>
+  );
+}
 
 function App() {
   return (
@@ -24,54 +41,10 @@ function App() {
         <Route path="/signup" element={<Signup />} />
 
         {/* Protected Routes */}
-        <Route
-          path="/profile"
-          element={
-            <ProtectedRoute>
-              <Profile />
-            </ProtectedRoute>
-          }
-        />
+        <Route path="/*" element={<ProtectedRoutes />} />
 
-        {/* Viewing a Map: /map/:mapId must include a valid mapId to fetch */}
-        <Route
-          path="/map/:mapId"
-          element={
-            <ProtectedRoute>
-              <MapViewer />
-            </ProtectedRoute>
-          }
-        />
-
-        {/* Editing or creating a map: /map-editor/:mapId? mapId is optional */}
-        <Route
-          path="/map-editor/:mapId?"
-          element={
-            <ProtectedRoute>
-              <MapEditor />
-            </ProtectedRoute>
-          }
-        />
-  
-          {/* BubbleMap route */} 
-        <Route
-          path="/bubble-map"
-          element={
-            <ProtectedRoute>
-              <BubbleMap />
-            </ProtectedRoute>
-          }
-        />
-      {/* AddTopic route */}
-        <Route
-          path="/add-topic/:mapId/:bubbleId"
-          element={<ProtectedRoute><AddTopic/></ProtectedRoute>}
-        />
-      {/* TopicDetails route */}
-        <Route
-          path="/topic-details/:mapId/:bubbleId"
-          element={<ProtectedRoute><TopicDetails/></ProtectedRoute>}
-        />
+        {/* Global 404 route for unmatched public paths */}
+        <Route path="*" element={<NotFound />} />
       </Routes>
     </>
   );
